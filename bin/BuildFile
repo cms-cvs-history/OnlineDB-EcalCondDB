@@ -1,0 +1,4 @@
+
+<use name=DataFormats/EcalDetId>
+<use name=CORALRelationalAccess>
+<bin file=cmsecal_write_offline_det_id.cpp></bin>
