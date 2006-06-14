@@ -53,8 +53,6 @@ public:
     locdef.setLocation(locations[3]);
 
     rundef.setRunType("TEST");
-    rundef.setConfigTag("TEST-TEST");
-    rundef.setConfigVersion(1);
     
     runtag.setLocationDef(locdef);
     runtag.setRunTypeDef(rundef);
@@ -316,8 +314,6 @@ private:
     cout << "GeneralTag:         " << tag->getGeneralTag() << endl;
     cout << "Location:           " << tag->getLocationDef().getLocation() << endl;
     cout << "Run Type:           " << tag->getRunTypeDef().getRunType() << endl;
-    cout << "Config Tag:         " << tag->getRunTypeDef().getConfigTag() << endl;
-    cout << "Config Ver:         " << tag->getRunTypeDef().getConfigVersion() << endl;
     cout << "====================" << endl;
   }
 
