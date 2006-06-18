@@ -1,8 +1,11 @@
-<use name=root>
-<use name=boost>
-<lib name=boost_program_options-gcc-mt>
-<use name=DataFormats/EcalDetId>
-<use name=CORALRelationalAccess>
+<bin file=cmsecal_rootplot.cpp>
+  <use name=root>
+  <use name=boost>
+  <lib name=boost_program_options-gcc-mt>
+</bin>
 
-<bin file=cmsecal_write_offline_det_id.cpp></bin>
-<bin file=cmsecal_rootplot.cpp></bin>
+
+<bin file=cmsecal_write_offline_det_id.cpp>
+  <use name=DataFormats/EcalDetId>
+  <use name=CORALRelationalAccess>
+</bin>
