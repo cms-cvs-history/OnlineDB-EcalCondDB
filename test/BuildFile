@@ -1,7 +1,5 @@
 <use name=OnlineDB/EcalCondDB>
 <use name=oracle>
-<lib name=nnz10>
-<lib name=occi>
 <bin file=TestMonitoring.cpp></bin>
 <bin file=TestDCU.cpp></bin>
 <bin file=TestLMF.cpp></bin>
