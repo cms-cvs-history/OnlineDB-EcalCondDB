@@ -4,5 +4,6 @@
 <bin file=TestDCU.cpp></bin>
 <bin file=TestLMF.cpp></bin>
 <bin file=TestCali.cpp></bin>
+<bin file=TestChErrors.cpp></bin>
 <bin file=TestTm.cpp></bin>
 <bin file=WriteRandPed.cpp></bin>
