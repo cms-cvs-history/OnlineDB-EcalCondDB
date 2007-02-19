@@ -1,5 +1,5 @@
 <use name=OnlineDB/EcalCondDB>
-<use name=oracle>
+<use name=OnlineDB/Oracle>
 <bin file=TestMonitoring.cpp></bin>
 <bin file=TestDCU.cpp></bin>
 <bin file=TestLMF.cpp></bin>
