@@ -7,5 +7,5 @@
 
 <bin file=cmsecal_write_offline_det_id.cpp>
   <use name=DataFormats/EcalDetId>
-  <use name=CORALRelationalAccess>
+  <use name=RelationalAccess>
 </bin>
