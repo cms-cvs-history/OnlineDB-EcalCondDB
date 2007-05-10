@@ -1,5 +1,6 @@
 <use name=OnlineDB/EcalCondDB>
 <use name=OnlineDB/Oracle>
+<use name=root>
 <bin file=TestMonitoring.cpp></bin>
 <bin file=TestDCU.cpp></bin>
 <bin file=TestLMF.cpp></bin>
@@ -7,3 +8,5 @@
 <bin file=TestChErrors.cpp></bin>
 <bin file=TestTm.cpp></bin>
 <bin file=WriteRandPed.cpp></bin>
+<bin file=TestDB.cpp></bin>
+<bin file=TestDB2.cpp></bin>
