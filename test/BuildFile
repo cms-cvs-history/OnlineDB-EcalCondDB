@@ -10,3 +10,5 @@
 <bin file=WriteRandPed.cpp></bin>
 <bin file=TestDB.cpp></bin>
 <bin file=TestDB2.cpp></bin>
+<bin file=TestFEConfig.cpp></bin>
+<bin file=TestChannelView.cpp></bin>
