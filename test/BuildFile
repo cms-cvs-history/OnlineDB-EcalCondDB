@@ -5,10 +5,12 @@
 <bin file=TestDCU.cpp></bin>
 <bin file=TestLMF.cpp></bin>
 <bin file=TestCali.cpp></bin>
+<bin file=TestDB.cpp></bin>
+<bin file=TestDB2.cpp></bin>
 <bin file=TestChErrors.cpp></bin>
 <bin file=TestTm.cpp></bin>
 <bin file=WriteRandPed.cpp></bin>
-<bin file=TestDB.cpp></bin>
-<bin file=TestDB2.cpp></bin>
 <bin file=TestFEConfig.cpp></bin>
 <bin file=TestChannelView.cpp></bin>
+<bin file=WriteRandPedEndcaps.cpp></bin>
+<bin file=TestFillRootFileNew.cpp></bin>
