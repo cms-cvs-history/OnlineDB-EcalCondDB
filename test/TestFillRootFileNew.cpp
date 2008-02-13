@@ -114,6 +114,20 @@ LMFRunIOV makeLMFRunIOV(RunIOV* runiov)
   lmfiov.setSubRunNumber(1);
   lmfiov.setSubRunStart(runiov->getRunStart());
 
+  Tm startTm;
+  startTm.setToCurrentGMTime();
+  uint64_t microseconds = startTm.microsTime();
+  startmicros = microseconds;
+  startTm.setToMicrosTime(microseconds);
+
+
+  lmfiov.setSubRunEnd(startTm);
+  lmfiov.setSubRunType("Standard");
+
+
+
+
+
   return lmfiov;
 }
 
@@ -194,19 +208,21 @@ LMFRunIOV makeLMFRunIOV(RunIOV* runiov)
     // this is for when they will store the file with the SM number 
     // for now all are stored fas if Sm22
     //    sROOT << "/data1/daq/crogan/ROOT_files/SM" << sm_num << "/SM" << sm_num  << "-0000";
-    sROOT << "/data1/daq/crogan/ROOT_files/SM22/SM22-0000";
-    sROOT_mq << "/data1/daq/crogan/ROOT_files/SM22/MATACQ-SM22-0000";
+    sROOT << "./SM22-0000";
+    sROOT_mq << "./MATACQ-SM22-0000";
     sROOT << run << ".root";
     sROOT_mq << run << ".root";
 
     cout << "opening file "<< sROOT.str().c_str() << endl;
     f = (TFile*) new TFile(sROOT.str().c_str());
+    //    TDirectory *DIR = (TDirectory*) f->GetDirectory(Run.str().c_str());
     TDirectory *DIR = (TDirectory*) f->GetDirectory(Run.str().c_str());
 
     int sm_num=1; // we write just 1 SM 
     // make a loop if you want to write more 
 
     if(DIR != NULL){
+      std::cout<< "we are entering the root file "<<endl;
       TH2F *APDPN = (TH2F*) DIR->Get("APDPN");
       TH2F *APD = (TH2F*) DIR->Get("APD");
       TH2F *APD_RMS = (TH2F*) DIR->Get("APD_RMS");
@@ -256,7 +272,8 @@ LMFRunIOV makeLMFRunIOV(RunIOV* runiov)
 	  bluelaser.setBeta( 120. ); // this was not in the file
 	  
 	  // Fill the dataset
-	  dataset_lmf[ecid[hi]] = bluelaser;
+	  EcalLogicID ec=ecid[hi];
+	  dataset_lmf[ec] = bluelaser;
 
 	  // we fill the PN data just once per fanout
 	  int ispn=-1;
@@ -273,7 +290,8 @@ LMFRunIOV makeLMFRunIOV(RunIOV* runiov)
 	    bluepn.setPNAOverPNBRMS(1.);
 	    bluepn.setPNAOverPNBPeak(1.);
 	    int hipn=(sm_num-1)*10+ispn;
-	    dataset_lpn[ecid_pn[hipn]] = bluepn;
+	    EcalLogicID epn=ecid_pn[hipn];
+	    dataset_lpn[epn] = bluepn;
 	  }
 
 
@@ -288,53 +306,59 @@ LMFRunIOV makeLMFRunIOV(RunIOV* runiov)
 
     try {
  
+      boolean mataq=false; 
 
-    f_mq = (TFile*) new TFile(sROOT_mq.str().c_str());
-
-    TH1F *mq_height = (TH1F*) f_mq->Get("Height_Channel_0_blue");
-    TH1F *mq_width = (TH1F*) f_mq->Get("Width_Channel_0_blue");
-    TH1F *mq_timing = (TH1F*) f_mq->Get("Timing_Channel_0_blue");
+      f_mq = (TFile*) new TFile(sROOT_mq.str().c_str());
+      if (f_mq->IsZombie()|| !mataq) {
+	cout << "Error opening MATACQ file maybe it does not exist" << endl;
+      } else {
+	
+	TH1F *mq_height = (TH1F*) f_mq->Get("Height_Channel_0_blue");
+	TH1F *mq_width = (TH1F*) f_mq->Get("Width_Channel_0_blue");
+	TH1F *mq_timing = (TH1F*) f_mq->Get("Timing_Channel_0_blue");
+	
+	mq_height->Fit("gaus");   
+	TF1 *fit_height= mq_height->GetFunction("gaus");
+	float par_height= (float) fit_height ->GetParameter(1);
+	
+	mq_width->Fit("gaus");   
+	TF1 *fit_width= mq_width->GetFunction("gaus");
+	float par_width=(float) fit_width ->GetParameter(1);
+	
+	mq_timing->Fit("gaus");   
+	TF1 *fit_timing= mq_timing->GetFunction("gaus");
+	float par_timing=(float) fit_timing ->GetParameter(1);
+	
+	
+	LMFLaserBluePulseDat lmf_mq;
+	EcalLogicID ecid_mq;
+	ecid_mq = econn->getEcalLogicID("ECAL"); // the full ECAL or to be changed for just a fanout 
+	lmf_mq.setFitMethod( "POLYNOMIAL" );
+	lmf_mq.setAmplitude( par_height );
+	lmf_mq.setTime( par_timing );
+	lmf_mq.setRise( par_timing );
+	lmf_mq.setFWHM( par_width );
+	lmf_mq.setFW20( par_width );
+	lmf_mq.setFW80( par_width );
+	lmf_mq.setSliding( par_height );
+	dataset_mq[ecid_mq] = lmf_mq;
+	econn->insertDataSet(&dataset_mq, &lmfiov);
+	
+	f_mq->Close();
+	
+	
+	cout << "Done Matacq "  << endl;
+	
+      } 
+    } catch (...) {
+      cout << " " << endl ;
+    }
     
-    mq_height->Fit("gaus");   
-    TF1 *fit_height= mq_height->GetFunction("gaus");
-    float par_height= (float) fit_height ->GetParameter(1);
-
-    mq_width->Fit("gaus");   
-    TF1 *fit_width= mq_width->GetFunction("gaus");
-    float par_width=(float) fit_width ->GetParameter(1);
-
-    mq_timing->Fit("gaus");   
-    TF1 *fit_timing= mq_timing->GetFunction("gaus");
-    float par_timing=(float) fit_timing ->GetParameter(1);
-
-
-    LMFLaserBluePulseDat lmf_mq;
-    EcalLogicID ecid_mq;
-    ecid_mq = econn->getEcalLogicID("ECAL"); // the full ECAL or to be changed for just a fanout 
-    lmf_mq.setFitMethod( "POLYNOMIAL" );
-    lmf_mq.setAmplitude( par_height );
-    lmf_mq.setTime( par_timing );
-    lmf_mq.setRise( par_timing );
-    lmf_mq.setFWHM( par_width );
-    lmf_mq.setFW20( par_width );
-    lmf_mq.setFW80( par_width );
-    lmf_mq.setSliding( par_height );
-    dataset_mq[ecid_mq] = lmf_mq;
-    econn->insertDataSet(&dataset_mq, &lmfiov);
-
-    f_mq->Close();
-
-
-    cout << "Done Matacq "  << endl;
-
-    } catch (exception &e) { 
-      cout << "TestLMF>> error with MATACQ " << e.what() ;
-    } 
 
     // Insert the dataset, identifying by iov
     cout << "Inserting dataset..." << flush;
-    econn->insertDataSet(&dataset_lmf, &lmfiov);
-    econn->insertDataSet(&dataset_lpn, &lmfiov);
+    econn->insertDataArraySet(&dataset_lmf, &lmfiov);
+    econn->insertDataArraySet(&dataset_lpn, &lmfiov);
     cout << "Done." << endl;
 
  
