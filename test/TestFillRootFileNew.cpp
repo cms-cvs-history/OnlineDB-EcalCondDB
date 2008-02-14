@@ -186,6 +186,16 @@ LMFRunIOV makeLMFRunIOV(RunIOV* runiov)
     cout <<"now loading the channel numbers in the barrel"<< endl; 
     vector<EcalLogicID> ecid;
     ecid = econn->getEcalLogicIDSet("EB_crystal_number", 1, 36, 1, 1700);
+
+    int nullid=EcalLogicID::NULLID;
+
+    vector<EcalLogicID> ecid_pna_map;
+    ecid_pna_map = econn->getEcalLogicIDSetOrdered("EB_LM_PNA", 1, 36, 0, 9,nullid, 
+					   nullid, "EB_crystal_number",4);
+    vector<EcalLogicID> ecid_pnb_map;
+    ecid_pnb_map = econn->getEcalLogicIDSetOrdered("EB_LM_PNB", 1, 36, 0, 9,nullid,
+					   nullid, "EB_crystal_number",4);
+
     vector<EcalLogicID> ecid_pn;
     ecid_pn = econn->getEcalLogicIDSet("EB_LM_PN", 1,36, 1,10);
     // done 
@@ -246,6 +256,7 @@ LMFRunIOV makeLMFRunIOV(RunIOV* runiov)
 	  if(c%20==0) cout << "channel "<< c<< " value "<< apdpn << endl;
 	  int hi=(sm_num-1)*1700+c;
 	  // the valid logic_id for this crystal is  ecid[hi] 
+	   
 
 	  // Set the data
 	  LMFLaserBluePrimDat bluelaser;
@@ -274,6 +285,22 @@ LMFRunIOV makeLMFRunIOV(RunIOV* runiov)
 	  // Fill the dataset
 	  EcalLogicID ec=ecid[hi];
 	  dataset_lmf[ec] = bluelaser;
+
+
+
+	  // new: example how to retrieve the right PN 
+	  int pna_sm=ecid_pna_map[hi].getID1();
+	  int pna_num=ecid_pna_map[hi].getID2();
+
+
+	  int pnb_sm=ecid_pnb_map[hi].getID1();
+	  int pnb_num=ecid_pnb_map[hi].getID2();
+ 
+	  std::cout << "this is the right PN number xtal:"<<c <<" PNA="<<pna_num<< " PNB="<<pnb_num<<endl;  
+
+	  // unfortunately in the file the PN data were written once per each crystal
+	  // so I anyway have to use the trick to save the PN only once per fanout and not 1700 times 
+
 
 	  // we fill the PN data just once per fanout
 	  int ispn=-1;
