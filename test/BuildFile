@@ -14,3 +14,4 @@
 <bin file=TestChannelView.cpp></bin>
 <bin file=WriteRandPedEndcaps.cpp></bin>
 <bin file=TestFillRootFileNew.cpp></bin>
+<bin file=TestOD.cpp></bin>
