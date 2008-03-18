@@ -360,7 +360,8 @@ LMFRunIOV makeLMFRunIOV(RunIOV* runiov)
 	LMFLaserBluePulseDat lmf_mq;
 	EcalLogicID ecid_mq;
 	ecid_mq = econn->getEcalLogicID("ECAL"); // the full ECAL or to be changed for just a fanout 
-	lmf_mq.setFitMethod( "POLYNOMIAL" );
+	//	lmf_mq.setFitMethod( "POLYNOMIAL" );
+	lmf_mq.setFitMethod( 0 );
 	lmf_mq.setAmplitude( par_height );
 	lmf_mq.setTime( par_timing );
 	lmf_mq.setRise( par_timing );
@@ -470,7 +471,7 @@ int main (int argc, char* argv[])
 
   if (argc != 6) {
     cout << "Usage:" << endl;
-    cout << "  " << argv[0] << " <host> <SID> <user> <pass> <run_num>" << endl;
+    cout << "  " << argv[0] << " <host> <SID> <user> <pass>" << endl;
     exit(-1);
   }
 
