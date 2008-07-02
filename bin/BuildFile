@@ -1,5 +1,5 @@
 <bin file=cmsecal_rootplot.cpp>
-  <use name=root>
+  <use name=rootgraphics>
   <use name=boost>
   <use name=boost_program_options> 
 </bin>
