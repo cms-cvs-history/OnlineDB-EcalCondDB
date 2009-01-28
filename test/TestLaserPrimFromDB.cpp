@@ -4,6 +4,7 @@
 #include <vector>
 #include <time.h>
 #include <cassert>
+#include <cstdlib>
 
 #include "OnlineDB/EcalCondDB/interface/EcalCondDBInterface.h"
 #include "OnlineDB/EcalCondDB/interface/all_lmf_types.h"
