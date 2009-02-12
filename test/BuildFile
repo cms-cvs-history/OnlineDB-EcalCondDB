@@ -20,3 +20,4 @@
 <bin file=TestLaserPrimFromDB.cpp></bin>
 <bin file=ReadCaliFromFile.cpp></bin>
 <bin file=ReadInterCaliFromFile.cpp></bin>
+<bin file=TestMOD.cpp></bin>
