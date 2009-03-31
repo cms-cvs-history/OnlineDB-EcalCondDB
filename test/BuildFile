@@ -21,3 +21,4 @@
 <bin file=ReadCaliFromFile.cpp></bin>
 <bin file=ReadInterCaliFromFile.cpp></bin>
 <bin file=TestMOD.cpp></bin>
+<bin file=InsertDCUIdarkPed.cpp></bin>
