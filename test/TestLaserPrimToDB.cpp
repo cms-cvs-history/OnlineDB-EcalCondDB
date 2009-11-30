@@ -199,7 +199,7 @@ public:
 	for( int side=0; side<2; side++ )
 	  {
 
-	    int subrunnumber = 10*color + side;
+	    subrunnumber = 10*color + side;
 	    //subrunnumber ++;
 	    LMFRunIOV lmfiov = this->makeLMFRunIOV( &runiov, subrunnumber );
 
@@ -541,8 +541,8 @@ int main (int argc, char* argv[])
   try {
 
     CondDBApp app(host, sid, user, pass);
-    unsigned int run = 17452;
-    unsigned int ts  = 1162879473;
+    // unsigned int run = 17452;
+    // unsigned int ts  = 1162879473;
     TString pathStr   = "/afs/cern.ch/user/g/ghm/scratch0/MusEcal/EBSM06/prim/";
     TString regionStr = "EB-SM19";
 

@@ -289,11 +289,11 @@ LMFRunIOV makeLMFRunIOV(RunIOV* runiov)
 
 
 	  // new: example how to retrieve the right PN 
-	  int pna_sm=ecid_pna_map[hi].getID1();
+	  //	  int pna_sm=ecid_pna_map[hi].getID1();
 	  int pna_num=ecid_pna_map[hi].getID2();
 
 
-	  int pnb_sm=ecid_pnb_map[hi].getID1();
+	  // int pnb_sm=ecid_pnb_map[hi].getID1();
 	  int pnb_num=ecid_pnb_map[hi].getID2();
  
 	  std::cout << "this is the right PN number xtal:"<<c <<" PNA="<<pna_num<< " PNB="<<pnb_num<<endl;  

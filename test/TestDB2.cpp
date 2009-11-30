@@ -103,9 +103,6 @@ public:
     std::vector<RunIOV> run_vec=  my_runlist.getRuns();
 
 
-    float day_to_sec=24.*60.*60.;
-    float two_hours=2.*60.*60.;
-    
     
     /*
       gStyle->SetOptStat(0);
@@ -147,7 +144,7 @@ public:
     std::vector<LMFRunIOV> lmf_run_vec=  lmf_list.getRuns();
 
     cout <<"number of LMF runs is : "<< lmf_run_vec.size()<< endl;
-    int lmf_runs=lmf_run_vec.size();
+    int lmf_runs=(int)lmf_run_vec.size();
     if(lmf_runs>0){
       
       cout << "here is first sub run : "<< lmf_run_vec[0].getSubRunNumber() << endl;
@@ -196,7 +193,7 @@ public:
 	apd_pn[i]=0;
       }
 
-      float sum_apd_pn;
+      float sum_apd_pn=0;
       for (CIlmf p = dataset_lmf.begin(); p != dataset_lmf.end(); p++) {
 	ecid_xt = p->first;
 	rd_apdnorm  = p->second;
@@ -282,30 +279,25 @@ private:
 
 int main (int argc, char* argv[])
 {
-  string host;
   string sid;
   string user;
   string pass;
-  string sport;
   string smin_run;
   string sn_run;
 
-  if (argc != 8) {
+  if (argc != 6) {
     cout << "Usage:" << endl;
-    cout << "  " << argv[0] << " <host> <SID> <user> <pass> <port> <min_run> <n_run>" << endl;
+    cout << "  " << argv[0] << " <SID> <user> <pass> <min_run> <n_run>" << endl;
     exit(-1);
   }
 
 
-  host = argv[1];
-  sid = argv[2];
-  user = argv[3];
-  pass = argv[4];
-  sport = argv[5];
-  int port=atoi(sport.c_str());
-  smin_run = argv[6];
+  sid = argv[1];
+  user = argv[2];
+  pass = argv[3];
+  smin_run = argv[4];
   int min_run=atoi(smin_run.c_str());
-  sn_run = argv[7];
+  sn_run = argv[5];
   int n_run=atoi(sn_run.c_str())+min_run;
 
 
