@@ -3,7 +3,6 @@
 <use name=CalibCalorimetry/EcalLaserAnalyzer>
 <use name=root>
 <bin file=LaserSeqToDB.cpp></bin>
-<bin file=CheckRunList.cpp></bin>
 <bin file=TestLMF2010-write.cpp></bin>
 <bin file=TestLMF2010-read.cpp></bin>
 <bin file=TestMonitoring.cpp></bin>
